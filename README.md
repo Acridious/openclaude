@@ -80,6 +80,13 @@ You can also run a simple browser-based chat UI that proxies requests through a
 local server (so API keys stay server-side):
 
 ```bash
+# easiest local-only setup (no Claude/OpenAI key, uses Ollama at localhost:11434)
+npm run web:local
+```
+
+Or configure provider env manually and run:
+
+```bash
 # set provider env first (examples above), then:
 npm run web:start
 ```
@@ -94,6 +101,7 @@ Notes:
 - `OPENAI_BASE_URL` defaults to `https://api.openai.com/v1`
 - `OPENAI_MODEL` defaults to `gpt-4o-mini`
 - `OPENAI_API_KEY` is required for cloud endpoints and optional for localhost endpoints
+- `web:local` auto-configures `CLAUDE_CODE_USE_OPENAI=1`, `OPENAI_BASE_URL=http://127.0.0.1:11434/v1`, and `OPENAI_MODEL=qwen2.5-coder:7b`
 - This browser UI is intentionally lightweight and independent from the terminal Ink UI
 
 The npm package name is `@gitlawb/openclaude`, but the installed CLI command is still `openclaude`.
