@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenClaude Browser UI</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <h1>OpenClaude Browser UI</h1>
+          <p class="muted">Local web front end for your configured model provider.</p>
+        </div>
+        <div id="status-pill" class="pill">Connecting...</div>
+      </header>
+
+      <section class="meta">
+        <div class="meta-card">
+          <div class="label">Provider</div>
+          <div id="provider">-</div>
+        </div>
+        <div class="meta-card">
+          <div class="label">Model</div>
+          <div id="model">-</div>
+        </div>
+        <div class="meta-card">
+          <div class="label">Endpoint</div>
+          <div id="endpoint">-</div>
+        </div>
+      </section>
+
+      <section id="messages" class="messages" aria-live="polite"></section>
+
+      <form id="chat-form" class="composer">
+        <textarea
+          id="prompt"
+          rows="3"
+          placeholder="Ask anything... (Shift+Enter for newline)"
+          required
+        ></textarea>
+        <div class="composer-row">
+          <span class="muted">API key stays on the local server, not in browser JS.</span>
+          <button id="send-btn" type="submit">Send</button>
+        </div>
+      </form>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

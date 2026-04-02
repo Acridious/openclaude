@@ -38,6 +38,9 @@
     "doctor:runtime": "bun run scripts/system-check.ts",
     "doctor:runtime:json": "bun run scripts/system-check.ts --json",
     "doctor:report": "bun run scripts/system-check.ts --out reports/doctor-runtime.json",
+    "web:start": "node scripts/web-ui-server.mjs",
+    "web:bootstrap": "bash scripts/bootstrap-local-web.sh",
+    "web:local": "node scripts/web-ui-local.mjs",
     "hardening:check": "bun run smoke && bun run doctor:runtime",
     "hardening:strict": "bun run typecheck && bun run hardening:check",
     "prepack": "npm run build"

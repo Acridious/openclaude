@@ -1,0 +1,266 @@
+:root {
+  color-scheme: dark;
+  --bg: #0e1116;
+  --panel: #171c24;
+  --panel-border: #2a3342;
+  --text: #e9edf5;
+  --muted: #9fb0c8;
+  --accent: #ff9d66;
+  --accent-strong: #ffb48a;
+  --success: #6ecf8f;
+  --error: #ff7e7e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(1200px 800px at 10% -20%, #2a1e1a 0%, var(--bg) 55%);
+  color: var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.layout {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.sidebar h1 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.tagline {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.meta {
+  display: grid;
+  gap: 10px;
+}
+
+.meta .row {
+  padding: 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.value {
+  margin-top: 4px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  font-size: 0.86rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--success);
+  box-shadow: 0 0 10px rgba(110, 207, 143, 0.65);
+}
+
+.dot.error {
+  background: var(--error);
+  box-shadow: 0 0 10px rgba(255, 126, 126, 0.65);
+}
+
+.commands {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.commands code {
+  color: var(--accent-strong);
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.chat-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.chat-subtitle {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.messages {
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  min-height: 460px;
+  max-height: 70vh;
+  overflow: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.message {
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.message.user {
+  border-color: #754b33;
+  background: rgba(255, 157, 102, 0.09);
+}
+
+.message.assistant {
+  border-color: #334460;
+  background: rgba(120, 154, 214, 0.08);
+}
+
+.message.system {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.message-role {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.composer {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+textarea {
+  width: 100%;
+  background: #121722;
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+  border-radius: 10px;
+  resize: vertical;
+  min-height: 110px;
+  padding: 12px;
+  font: inherit;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #4f6790;
+  box-shadow: 0 0 0 2px rgba(79, 103, 144, 0.24);
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+button {
+  appearance: none;
+  border: 1px solid #7c4e36;
+  background: linear-gradient(180deg, #ff9d66 0%, #d97f52 100%);
+  color: #1a130f;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.05);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.toast {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--panel-border);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.toast.error {
+  color: #ffd2d2;
+  border-color: #7a3f3f;
+  background: rgba(190, 56, 56, 0.18);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .messages {
+    min-height: 360px;
+    max-height: 55vh;
+  }
+}
