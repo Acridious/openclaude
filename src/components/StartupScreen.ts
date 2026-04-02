@@ -40,6 +40,16 @@ function paintLine(text: string, stops: RGB[], lineT: number): string {
   return out + RESET
 }
 
+function stripAnsi(text: string): string {
+  return text.replace(/\x1b\[[0-9;]*m/g, '')
+}
+
+function truncate(text: string, max: number): string {
+  if (text.length <= max) return text
+  if (max <= 3) return text.slice(0, max)
+  return `${text.slice(0, max - 3)}...`
+}
+
 // ─── Colors ───────────────────────────────────────────────────────────────────
 
 const SUNSET_GRAD: RGB[] = [
@@ -55,6 +65,8 @@ const ACCENT: RGB = [240, 148, 100]
 const CREAM: RGB = [220, 195, 170]
 const DIMCOL: RGB = [120, 100, 82]
 const BORDER: RGB = [100, 80, 65]
+const SUCCESS: RGB = [130, 175, 130]
+const INFO: RGB = [140, 170, 215]
 
 // ─── Filled Block Text Logo ───────────────────────────────────────────────────
 
@@ -133,7 +145,7 @@ export function printStartupScreen(): void {
   if (process.env.CI || !process.stdout.isTTY) return
 
   const p = detectProvider()
-  const W = 62
+  const W = 84
   const out: string[] = []
 
   out.push('')
@@ -156,30 +168,35 @@ export function printStartupScreen(): void {
   out.push(`  ${rgb(...ACCENT)}\u2726${RESET} ${rgb(...CREAM)}Any model. Every tool. Zero limits.${RESET} ${rgb(...ACCENT)}\u2726${RESET}`)
   out.push('')
 
-  // Provider info box
+  // Provider dashboard
   out.push(`${rgb(...BORDER)}\u2554${'\u2550'.repeat(W - 2)}\u2557${RESET}`)
 
-  const lbl = (k: string, v: string, c: RGB = CREAM): [string, number] => {
+  const box = (content: string): string => boxRow(content, W, stripAnsi(content).length)
+
+  const lbl = (k: string, v: string, c: RGB = CREAM): string => {
     const padK = k.padEnd(9)
-    return [` ${DIM}${rgb(...DIMCOL)}${padK}${RESET} ${rgb(...c)}${v}${RESET}`, ` ${padK} ${v}`.length]
+    return ` ${DIM}${rgb(...DIMCOL)}${padK}${RESET} ${rgb(...c)}${v}${RESET}`
   }
 
-  const provC: RGB = p.isLocal ? [130, 175, 130] : ACCENT
-  let [r, l] = lbl('Provider', p.name, provC)
-  out.push(boxRow(r, W, l))
-  ;[r, l] = lbl('Model', p.model)
-  out.push(boxRow(r, W, l))
-  const ep = p.baseUrl.length > 38 ? p.baseUrl.slice(0, 35) + '...' : p.baseUrl
-  ;[r, l] = lbl('Endpoint', ep)
-  out.push(boxRow(r, W, l))
+  const provC: RGB = p.isLocal ? SUCCESS : ACCENT
+  out.push(box(` ${rgb(...ACCENT)}Session dashboard${RESET}`))
+  out.push(box(lbl('Provider', p.name, provC)))
+  out.push(box(lbl('Model', truncate(p.model, 66))))
+  out.push(box(lbl('Endpoint', truncate(p.baseUrl, 66))))
 
   out.push(`${rgb(...BORDER)}\u2560${'\u2550'.repeat(W - 2)}\u2563${RESET}`)
 
-  const sC: RGB = p.isLocal ? [130, 175, 130] : ACCENT
+  const sC: RGB = p.isLocal ? SUCCESS : ACCENT
   const sL = p.isLocal ? 'local' : 'cloud'
-  const sRow = ` ${rgb(...sC)}\u25cf${RESET} ${DIM}${rgb(...DIMCOL)}${sL}${RESET}    ${DIM}${rgb(...DIMCOL)}Ready \u2014 type ${RESET}${rgb(...ACCENT)}/help${RESET}${DIM}${rgb(...DIMCOL)} to begin${RESET}`
-  const sLen = ` \u25cf ${sL}    Ready \u2014 type /help to begin`.length
-  out.push(boxRow(sRow, W, sLen))
+  out.push(box(` ${rgb(...sC)}\u25cf${RESET} ${DIM}${rgb(...DIMCOL)}Mode:${RESET} ${rgb(...CREAM)}${sL}${RESET}  ${DIM}${rgb(...DIMCOL)}Status:${RESET} ${rgb(...SUCCESS)}ready${RESET}`))
+  out.push(box(` ${DIM}${rgb(...DIMCOL)}Quick actions:${RESET} ${rgb(...INFO)}/help${RESET} ${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...INFO)}/doctor${RESET} ${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...INFO)}/model${RESET} ${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...INFO)}/config${RESET}`))
+  out.push(box(` ${DIM}${rgb(...DIMCOL)}Dev flow:${RESET} ${rgb(...INFO)}/review${RESET} ${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...INFO)}/compact${RESET} ${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...INFO)}/diff${RESET} ${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...INFO)}/commit${RESET}`))
+
+  out.push(`${rgb(...BORDER)}\u2560${'\u2550'.repeat(W - 2)}\u2563${RESET}`)
+  out.push(box(` ${rgb(...ACCENT)}How it works${RESET}`))
+  out.push(box(` ${DIM}${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...CREAM)}OpenClaude app logic runs in this local terminal session.${RESET}`))
+  out.push(box(` ${DIM}${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...CREAM)}AI inference runs ${p.isLocal ? 'locally (your endpoint points to localhost).' : 'on your selected provider (cloud endpoint).'}${RESET}`))
+  out.push(box(` ${DIM}${rgb(...DIMCOL)}\u2022${RESET} ${rgb(...CREAM)}Tool calls (bash/files/git) execute on this machine.${RESET}`))
 
   out.push(`${rgb(...BORDER)}\u255a${'\u2550'.repeat(W - 2)}\u255d${RESET}`)
   out.push(`  ${DIM}${rgb(...DIMCOL)}openclaude ${RESET}${rgb(...ACCENT)}v${MACRO.DISPLAY_VERSION ?? MACRO.VERSION}${RESET}`)
