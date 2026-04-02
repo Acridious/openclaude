@@ -84,6 +84,12 @@ local server (so API keys stay server-side):
 npm run web:local
 ```
 
+Or fully automated bootstrap + run:
+
+```bash
+npm run web:bootstrap
+```
+
 Or configure provider env manually and run:
 
 ```bash
@@ -102,6 +108,7 @@ Notes:
 - `OPENAI_MODEL` defaults to `gpt-4o-mini`
 - `OPENAI_API_KEY` is required for cloud endpoints and optional for localhost endpoints
 - `web:local` auto-configures `CLAUDE_CODE_USE_OPENAI=1`, `OPENAI_BASE_URL=http://127.0.0.1:11434/v1`, and `OPENAI_MODEL=qwen2.5-coder:7b`
+- `web:bootstrap` installs dependencies (if needed), ensures Ollama is reachable, pulls the local model if missing, and starts the UI
 - This browser UI is intentionally lightweight and independent from the terminal Ink UI
 
 The npm package name is `@gitlawb/openclaude`, but the installed CLI command is still `openclaude`.
