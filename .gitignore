@@ -5,3 +5,4 @@ dist/
 .env.*
 .openclaude-profile.json
 reports/
+web/transcripts/

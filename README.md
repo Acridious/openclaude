@@ -74,6 +74,28 @@ node dist/cli.mjs
 
 That's it. The tool system, streaming, file editing, multi-step reasoning — everything works through the model you picked.
 
+### Browser UI (local)
+
+You can also run a simple browser-based chat UI that proxies requests through a
+local server (so API keys stay server-side):
+
+```bash
+# set provider env first (examples above), then:
+npm run web:start
+```
+
+Then open:
+
+```text
+http://localhost:8787
+```
+
+Notes:
+- `OPENAI_BASE_URL` defaults to `https://api.openai.com/v1`
+- `OPENAI_MODEL` defaults to `gpt-4o-mini`
+- `OPENAI_API_KEY` is required for cloud endpoints and optional for localhost endpoints
+- This browser UI is intentionally lightweight and independent from the terminal Ink UI
+
 The npm package name is `@gitlawb/openclaude`, but the installed CLI command is still `openclaude`.
 
 ---
